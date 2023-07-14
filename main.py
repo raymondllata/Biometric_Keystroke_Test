@@ -32,6 +32,33 @@ class dataCollectionGUI:
 
         self.frame.pack(expand=True)
 
+        self.counter = 0
+        self.started = False
+
         self.root.mainloop()
+
+    #start button logic
+    def start(self, event):
+        if not self.started:
+            #keycodes for shift, alt, ctrl via Google
+            if not event.keycode in [16, 17, 18]:
+                t = threading.Thread(target=self.time_thread)
+                t.start()
+            #need to add logic to stop after 15 seconds
+
+
+    #adding timing functionality that runs on a different thread then GUI
+    #will need to add data collection here
+    def timeThreading(self):
+        while self.started:
+            time.sleep(0.1)
+            self.counter += 0.1
+
+
+
+    def reset(self):
+        pass
+
+dataCollectionGUI()
 
 
