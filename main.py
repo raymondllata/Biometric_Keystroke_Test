@@ -22,12 +22,12 @@ class dataCollectionGUI:
         self.input_entry = tk.Entry(self.frame, width=40, font=("Helvetica", 24))
         self.input_entry.grid(row=1, column=0, columnspan=2, padx=5, pady=10)
         #inputing text starts the GUI
-        self.input_entry.bind("<KeyPressed>", self.start)
+        self.input_entry.bind("<KeyPress>", self.start)
 
         #Can add similarity percentage to each person as a real-time feature
 
         #implementing reset button
-        self.reset_button = tk.button(self.frame, text="Reset", command=self.reset)
+        self.reset_button = tk.Button(self.frame, text="Reset", command=self.reset)
         self.reset_button.grid(row=3, column=0, columnspan=2, padx=5, pady=10)
 
         self.frame.pack(expand=True)
