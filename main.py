@@ -2,6 +2,7 @@ import tkinter as tk
 import time
 import threading
 import random
+from compute_probabilities import compute_likelihood_stats
 
 PERSON_ONE_DATA = []
 PERSON_TWO_DATA = []
@@ -88,7 +89,6 @@ class dataCollectionGUI:
 
             timer = self.counter
             self.time_label.config(text=f"Time: {timer:.2f} Seconds")
-        print("data:" + str(PERSON_ONE_DATA))
         self.clearSequence()
 
     def clearSequence(self):
@@ -105,6 +105,11 @@ class dataCollectionGUI:
             print(PERSON_ONE_DATA)
             print(PERSON_TWO_DATA)
             print(MYSTERY_PERSON_DATA)
+            print("testing...")
+            likelihoodStats = compute_likelihood_stats(PERSON_ONE_DATA, PERSON_TWO_DATA, MYSTERY_PERSON_DATA)
+            print("Likelihood You Are Person A: " + str(likelihoodStats[0]))
+            print("Likelihood You Are Person B: " + str(likelihoodStats[1]))
+
 
 
     #reset test function
