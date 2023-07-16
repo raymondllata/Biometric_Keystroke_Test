@@ -1,6 +1,7 @@
 import tkinter as tk
 import time
 import threading
+import math
 import random
 from compute_probabilities import compute_likelihood_stats
 
@@ -24,7 +25,7 @@ class dataCollectionGUI:
 
         self.frame = tk.Frame(self.root)
 
-        self.sample_label = tk.Label(self.frame, text=random.choice(self.texts), font=("Helvetica", 18))
+        self.sample_label = tk.Label(self.frame, text="10 Second Typing Test! Person A", font=("Helvetica", 18))
         self.sample_label.grid(row=0, column=0, columnspan=2, padx=5, pady= 5)
 
         self.input_entry = tk.Entry(self.frame, width=40, font=("Helvetica", 24))
@@ -62,7 +63,7 @@ class dataCollectionGUI:
 
         if not self.started:
             self.start(event)
-        if self.counter >= 5:
+        if self.counter >= 10:
             self.started = False
             self.clearSequence()
             print(PERSON_ONE_DATA)
@@ -83,7 +84,7 @@ class dataCollectionGUI:
     #adding timing functionality that runs on a different thread then GUI
     #will need to add data collection here
     def timeThreading(self):
-        while self.started and self.counter < 5.0:
+        while self.started and self.counter < 10.0:
             time.sleep(0.1)
             self.counter += 0.1
 
@@ -106,9 +107,20 @@ class dataCollectionGUI:
             print(PERSON_TWO_DATA)
             print(MYSTERY_PERSON_DATA)
             print("testing...")
-            likelihoodStats = compute_likelihood_stats(PERSON_ONE_DATA, PERSON_TWO_DATA, MYSTERY_PERSON_DATA)
-            print("Likelihood You Are Person A: " + str(likelihoodStats[0]))
-            print("Likelihood You Are Person B: " + str(likelihoodStats[1]))
+            computed_stats = compute_likelihood_stats(PERSON_ONE_DATA, PERSON_TWO_DATA, MYSTERY_PERSON_DATA)
+            likelihoodStats = computed_stats[0]
+            bootstrapStats = computed_stats[1]
+            print("Likelihood You Are Person A: " + str(math.log(likelihoodStats[0])))
+            print("Likelihood You Are Person B: " + str(math.log(likelihoodStats[1])))
+            print("Bootstrapped Likelihood You Are Person A: " + str(math.log(bootstrapStats[0])))
+            print("Boostrapped Likelihood You Are Person B: " + str(math.log(bootstrapStats[1])))
+            print("Final Results: ")
+            if math.log(bootstrapStats[0]) > math.log(bootstrapStats[1]):
+                print("You are person A!")
+            if math.log(bootstrapStats[0]) < math.log(bootstrapStats[1]):
+                print("You are person B!")
+            else:
+                print("I am Unsure!")
 
 
 
